@@ -1,7 +1,9 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.stream.Collector;
@@ -65,5 +67,34 @@ public class StreamTest {
         .boxed().collect(Collectors.toList());
 
         boxedResult.stream().forEach(System.out::println);
+
+        System.out.println(test());
+    }
+
+    public static Map<String, List<Integer>> test() {
+        List<TestClass> list = List.of (new TestClass("a", 1), new TestClass("a", 2), new TestClass("a", 3), new TestClass("b", 4), new TestClass("b", 5));
+        Map<String, List<Integer>> map = new HashMap<>();
+
+        map = list.stream().collect(Collectors.groupingBy(a -> a.str, Collectors.mapping(a -> a.num, Collectors.toList())));
+
+        return map;
+    }
+
+    static class TestClass {
+        private String str;
+        private int num;
+
+        String getStr() {
+            return this.str;
+        }
+
+        int getNum() {
+            return this.num;
+        }
+
+        public TestClass(String a, int b) {
+            this.str = a;
+            this.num = b;
+        }
     }
 }
